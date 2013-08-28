@@ -27,10 +27,9 @@ string str1 = charset;
 void make_file(string  file_name)
 {
   ofstream file(file_name) ;
-  
+  string str2(rand_length,0);
   for(unsigned k=0, j=0; k<lines; k++)
   {
-    string str2(rand_length,0);
     generate_n(
                 str2.begin(), 
                 rand_length, 
