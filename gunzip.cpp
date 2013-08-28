@@ -4,6 +4,10 @@
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/copy.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
+// c headers
+#include <stdio.h>
+#include <sys/types.h>
+#include <utime.h>
 
 using namespace std;
 
@@ -19,11 +23,16 @@ void gunzip( char* file_name)
   ofstream ofile( tmp_file_name );
   boost::iostreams::copy(in, ofile);
   ofile.close();
-  cout << in.component<0,gzip_decompressor>()->mtime() << endl;
-  cout << in.component<0,gzip_decompressor>()->file_name() << endl;
+  ifile.close();
+  time_t mtime =  in.component<0,gzip_decompressor>()->mtime();
+  string orig_file_name = in.component<0,gzip_decompressor>()->file_name();
   rename( tmp_file_name.c_str(), 
-          (in.component<0,gzip_decompressor>()->file_name()).c_str()
+          orig_file_name.c_str()
         );
+  struct utimbuf ut;
+  ut.modtime=mtime;
+  ut.actime=mtime;
+  utime(orig_file_name.c_str(),&ut);
 }
 
 
