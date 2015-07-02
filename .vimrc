@@ -118,3 +118,5 @@ nnoremap <silent> <F8> :TlistToggle<CR>
 nnoremap <silent>  f   :echo @%<CR>
 nnoremap <silent> <F2> :e ..<CR>
 hi DiffText cterm=bold ctermfg=125 ctermbg=225
+map <leader>jt  <Esc>:%!json_xs -f json -t json-pretty<CR>
+: syntax match cString 'R"\([^(]*\)(\_.*)\1"'
